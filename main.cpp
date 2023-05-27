@@ -1,8 +1,15 @@
-#include <QApplication>
+#include "QDebug"
+#include "keystorage.h"
 
-int main(int argc, char *argv[])
+int main()
 {
-    QApplication app(argc, argv);
-
-    return app.exec();
+    KeyStorage storage;
+    storage.put("test", "Hello world!");
+    qDebug() <<"Output data: " << storage.getString("test");
+    qDebug() <<"Created in: " << KeyStorage::storageModel->get("test")->created;
+    storage.patch("test", "Testing line");
+    qDebug() <<"Output data: " << storage.getString("test");
+    storage.remove("test");
+    qDebug() <<"Updated data: " << storage.getString("test");
+    return 0;
 }

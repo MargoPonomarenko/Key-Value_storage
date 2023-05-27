@@ -1,18 +1,42 @@
 #include "keyStorageModel.h"
 
-KeyStorageModel::KeyStorageModel()
-{
-    storage = new QMap<QString, StorageItem>;
-}
+#include "QDebug"
+
+KeyStorageModel::KeyStorageModel():storage(*new QMap<QString, StorageItem *>)
+{}
 
 KeyStorageModel::~KeyStorageModel()
 {
-    storage->clear();
-    delete storage;
+    storage.clear();
+    for(QString const &item:storage.keys()){
+        delete storage[item];
+    }
+    delete &storage;
+
 }
 
-void KeyStorageModel::put(QString key, StorageItem value)
+void KeyStorageModel::put(QString key, StorageItem * value)
 {
-    (* storage)[key] = value;
+    storage[key] = value;
+}
+
+StorageItem *KeyStorageModel::get(QString key)
+{
+    if (storage.contains(key)) {
+        return storage[key];
+    }
+    return nullptr;
+}
+
+void KeyStorageModel::patch(QString key, StorageItem *newValue)
+{
+    if (storage.contains(key)) {
+        storage[key] = newValue;
+    }
+}
+
+void KeyStorageModel::remove(QString key)
+{
+    storage.remove(key);
 }
 
