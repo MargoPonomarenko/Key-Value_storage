@@ -1,6 +1,12 @@
 #ifndef KEYSTORAGE_H
 #define KEYSTORAGE_H
 
+#if defined MAKE_TEST_LIB
+    #define TEST_LIB_EXPORT Q_DECL_EXPORT
+#else
+    #define TEST_LIB_EXPORT Q_DECL_IMPORT
+#endif
+
 #include "keyStorageModel.h"
 
 class KeyStorage
