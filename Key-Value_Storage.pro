@@ -1,7 +1,7 @@
-QT       += core gui
+QT -= gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+TEMPLATE = lib
+DEFINES += KEYVALUESTORAGE_LIBRARY
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
@@ -10,16 +10,16 @@ CONFIG += c++17
 
 SOURCES += \
     keyStorageModel.cpp \
-    keystorage.cpp \
-    main.cpp
+    keystorage.cpp
 
 HEADERS += \
+    KeyValueStorage_global.h \
     keyStorageModel.h \
     keystorage.h
 
-FORMS +=
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+unix {
+    target.path = /usr/lib
+}
 !isEmpty(target.path): INSTALLS += target

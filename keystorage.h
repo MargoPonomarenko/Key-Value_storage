@@ -1,13 +1,13 @@
 #ifndef KEYSTORAGE_H
 #define KEYSTORAGE_H
 
+#include "KeyValueStorage_global.h"
 #include "keyStorageModel.h"
 
-class KeyStorage
+class KEYVALUESTORAGE_EXPORT KeyStorage
 {
 public:
     KeyStorage();
-    static KeyStorageModel * storageModel;
 
     static void put(QString key, QString value);
     static void put(QString key, double value);
@@ -21,8 +21,10 @@ public:
     static double patch(QString key, double newValue);
     static QVector<QString> patch(QString key, QVector<QString> newValue);
 
-    void remove(QString key);
+    static void remove(QString key);
+
 private:
+    static KeyStorageModel * storageModel;
     static void put(QString key, StorageItem *value);
 };
 

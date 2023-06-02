@@ -40,3 +40,12 @@ void KeyStorageModel::remove(QString key)
     storage.remove(key);
 }
 
+void KeyStorageModel::removeOld()
+{
+    for(QString const &item:storage.keys()){
+        if(storage[item]->created.daysTo(QDate()) > timeLife){
+            storage.remove(item);
+        }
+    }
+}
+
