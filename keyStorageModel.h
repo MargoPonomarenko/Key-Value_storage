@@ -49,7 +49,10 @@ public:
     void patch(QString key, StorageItem *newValue);
     void remove(QString key);
 private:
+    //set life time func
+    int timeLife = 1;
     QMap<QString, StorageItem *> &storage;
+    void removeOld();
 };
 
 #endif // KEYSTORAGEMODEL_H
