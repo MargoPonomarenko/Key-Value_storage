@@ -1,4 +1,5 @@
 QT -= gui
+QT += sql
 
 TEMPLATE = lib
 DEFINES += KEYVALUESTORAGE_LIBRARY
@@ -10,12 +11,14 @@ CONFIG += c++17
 
 SOURCES += \
     keyStorageModel.cpp \
-    keystorage.cpp
+    keystorage.cpp \
+    sqlitebackupservice.cpp
 
 HEADERS += \
     KeyValueStorage_global.h \
     keyStorageModel.h \
-    keystorage.h
+    keystorage.h \
+    sqlitebackupservice.h
 
 
 # Default rules for deployment.

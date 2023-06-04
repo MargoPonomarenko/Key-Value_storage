@@ -1,18 +1,31 @@
 #ifndef KEYSTORAGEMODEL_H
 #define KEYSTORAGEMODEL_H
-#include "QMap"
-#include "QDate"
+#include <QMap>
+#include <QDate>
 
 enum class DataType{
     qString, doubleValue, qStringVector
 };
 
-struct StorageItem{
+struct StorageItem:QObject{
+    Q_OBJECT
+public:
     DataType itemType;
     QDate created;
     StorageItem(DataType type, QDate date){
         itemType = type;
         created = date;
+    }
+    StorageItem(const StorageItem& item) {
+        itemType = item.itemType;
+        created = item.created;
+    }
+    StorageItem& operator=(const StorageItem& item) {
+        if (this != &item) {
+            itemType = item.itemType;
+            created = item.created;
+        }
+        return *this;
     }
 };
 
@@ -48,9 +61,13 @@ public:
     StorageItem *get(QString key);
     void patch(QString key, StorageItem *newValue);
     void remove(QString key);
+
+
 private:
     //set life time func
     int timeLife = 1;
+    void setTimeLife(int days);
+
     QMap<QString, StorageItem *> &storage;
     void removeOld();
 };
