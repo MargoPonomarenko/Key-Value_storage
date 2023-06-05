@@ -55,7 +55,7 @@ void SQLiteBackupService::loadFromDatabase(QString key)
         //QObject *valueObject = qvariant_cast<QObject *>(value);
 
         QByteArray serializedData = qvariant_cast<QByteArray>(value);
-        StorageItem *data = new StorageItem;
+        StorageItem data;
         //StorageItem item;
         QDataStream stream(&serializedData, QIODevice::ReadOnly);
         stream >> data;

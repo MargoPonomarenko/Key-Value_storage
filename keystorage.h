@@ -37,7 +37,7 @@ private slots:
     void onDataLoaded(QString key, StorageItem *value);
 
 private:
-    KeyStorageModel * storageModel;
+    KeyStorageModel *storageModel;
     SQLiteBackupService *backupService;
     void put(QString key, StorageItem *value);
 };
