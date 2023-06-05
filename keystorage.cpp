@@ -1,15 +1,19 @@
 #include "keystorage.h"
 
-KeyStorageModel * KeyStorage::storageModel = new KeyStorageModel;
 
 KeyStorage::KeyStorage()
 {
+    storageModel = new KeyStorageModel;
+    backupService = new SQLiteBackupService;
+    backupService->setStorage(this);
+    connect(backupService, &SQLiteBackupService::dataLoaded, this, &KeyStorage::onDataLoaded);
 }
 
 void KeyStorage::put(QString key, QString value)
 {
     StringItem *item = new StringItem {DataType::qString, QDate::currentDate(), value};
     put(key, item);
+    emit saveToDatabase(key, item);
 }
 
 void KeyStorage::put(QString key, double value)
@@ -30,49 +34,75 @@ void KeyStorage::put(QString key, StorageItem * value)
 }
 
 
-QString KeyStorage::getString(QString key)
+void KeyStorage::getString(QString key)
 {
-    return ((StringItem *)KeyStorage::storageModel->get(key))->data;
+    StringItem *item = (StringItem *)KeyStorage::storageModel->get(key);
+    if(item == nullptr){
+        emit loadFromDatabase(key);
+    }
+    else{
+       emit gettedString(item->data);
+    }
 }
 
-double KeyStorage::getDouble(QString key)
+void KeyStorage::getDouble(QString key)
 {
-    return ((DoubleItem *)KeyStorage::storageModel->get(key))->data;
+    emit gettedDouble(((DoubleItem *)KeyStorage::storageModel->get(key))->data);
 }
 
-QVector<QString> KeyStorage::getStringVector(QString key)
+void KeyStorage::getStringVector(QString key)
 {
-    return ((VectorStringItem *)KeyStorage::storageModel->get(key))->data;
+    emit gettedVectorString(((VectorStringItem *)KeyStorage::storageModel->get(key))->data);
 }
 
-QString KeyStorage::patch(QString key, QString newValue)
+bool KeyStorage::patch(QString key, QString newValue)
 {
     if (KeyStorage::storageModel->get(key)) {
         StringItem *item = (StringItem *)KeyStorage::storageModel->get(key);
         item->data = newValue;
+        return true;
     }
-    return ((StringItem *)KeyStorage::storageModel->get(key))->data;
+    return false;
 }
 
-double KeyStorage::patch(QString key, double newValue)
+bool KeyStorage::patch(QString key, double newValue)
 {
     if (KeyStorage::storageModel->get(key)) {
         DoubleItem *item = (DoubleItem *)KeyStorage::storageModel->get(key);
         item->data = newValue;
+        return true;
     }
-    return ((DoubleItem *)KeyStorage::storageModel->get(key))->data;
+    return false;
 }
 
-QVector<QString> KeyStorage::patch(QString key, QVector<QString> newValue)
+bool KeyStorage::patch(QString key, QVector<QString> newValue)
 {
     if (KeyStorage::storageModel->get(key)) {
         VectorStringItem *item = (VectorStringItem *)KeyStorage::storageModel->get(key);
         item->data = newValue;
+        return true;
     }
-    return ((VectorStringItem *)KeyStorage::storageModel->get(key))->data;
+    return false;
 }
 
 void KeyStorage::remove(QString key)
 {
     KeyStorage::storageModel->remove(key);
+}
+
+void KeyStorage::onDataLoaded(QString key, StorageItem *value)
+{
+    switch(value->itemType)
+    {
+    case DataType::qString:
+        emit gettedString(((StringItem *)value)->data);
+        break;
+    case DataType::doubleValue:
+        emit gettedDouble(((DoubleItem *)value)->data);
+        break;
+    case DataType::qStringVector:
+        emit gettedVectorString(((VectorStringItem *)value)->data);
+        break;
+
+    }
 }

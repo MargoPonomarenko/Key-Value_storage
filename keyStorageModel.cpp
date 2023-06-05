@@ -3,7 +3,9 @@
 #include "QDebug"
 
 KeyStorageModel::KeyStorageModel():storage(*new QMap<QString, StorageItem *>)
-{}
+{
+    KeyStorageModel::setTimeLife(3);
+}
 
 KeyStorageModel::~KeyStorageModel()
 {
@@ -38,6 +40,11 @@ void KeyStorageModel::patch(QString key, StorageItem *newValue)
 void KeyStorageModel::remove(QString key)
 {
     storage.remove(key);
+}
+
+void KeyStorageModel::setTimeLife(int days)
+{
+    timeLife = days;
 }
 
 void KeyStorageModel::removeOld()
