@@ -15,6 +15,7 @@ class SQLiteBackupService: public QObject
 public:
     SQLiteBackupService();
     void setStorage(KeyStorage *storage);
+    void initSlotConnection();
 
 public slots:
     void saveToDatabase(QString key, StorageItem *value);
@@ -25,8 +26,9 @@ signals:
 
 private:
     KeyStorage *storage;
-    QSqlDatabase *db;
+    QSqlDatabase db;
     void connectToDatabase();
+
 
 };
 
