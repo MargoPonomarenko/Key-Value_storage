@@ -20,6 +20,7 @@ KeyStorageModel::~KeyStorageModel()
 void KeyStorageModel::put(QString key, StorageItem * value)
 {
     storage[key] = value;
+    qDebug()<<"Data put into model";
 }
 
 StorageItem *KeyStorageModel::get(QString key)

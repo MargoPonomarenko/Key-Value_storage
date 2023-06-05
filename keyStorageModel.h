@@ -12,6 +12,7 @@ struct StorageItem:QObject{
 public:
     DataType itemType;
     QDate created;
+    StorageItem();
     StorageItem(DataType type, QDate date){
         itemType = type;
         created = date;
@@ -27,6 +28,15 @@ public:
         }
         return *this;
     }
+
+    friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item) {
+            stream << item.itemType << item.created;
+            return stream;
+    }
+    friend QDataStream& operator>>(QDataStream& stream, StorageItem& item) {
+            stream >> item.itemType >> item.created;
+            return stream;
+     }
 };
 
 struct StringItem: public StorageItem{
@@ -34,7 +44,7 @@ struct StringItem: public StorageItem{
     StringItem(DataType type, QDate date, QString data):StorageItem(type, date){
         this->data = data;
     }
-
+    StringItem();
 };
 
 struct DoubleItem: public StorageItem{
