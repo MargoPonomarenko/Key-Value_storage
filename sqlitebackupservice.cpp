@@ -23,14 +23,25 @@ void SQLiteBackupService::saveToDatabase(QString key, StorageItem *value)
         return;
     }
 
-    QVariant data;
-    data.setValue( *value);
+//    QVariant data;
+//    data.setValue( *value);
 
     QByteArray serializedData; //серилізація об'єкту StorageItem
     QDataStream stream(&serializedData, QIODevice::WriteOnly);
-//    stream << *value;
-    stream << data;
-    qDebug()<< "saveToDatabase result: "<< data;
+    switch (value->itemType){
+    case DataType::qString:
+        stream << *((StringItem *) value);
+        break;
+    case DataType::doubleValue:
+        break;
+    case DataType::qStringVector:
+        break;
+
+    }
+
+    //stream << *value;
+    //stream << data;
+    //qDebug()<< "saveToDatabase result: "<< data;
 
     QSqlQuery query;
     query.prepare("INSERT INTO storage (key, value) VALUES (?, ?)");
@@ -51,18 +62,34 @@ void SQLiteBackupService::loadFromDatabase(QString key)
 
     if(query.next()){
         QString key = query.value(0).toString();
-        QVariant value = query.value(1);
+        QByteArray serializedData = query.value(1).toByteArray();
+
         //QObject *valueObject = qvariant_cast<QObject *>(value);
 
-        QByteArray serializedData = qvariant_cast<QByteArray>(value);
+        //QByteArray serializedData = qvariant_cast<QByteArray>(value);
         StorageItem data;
-        //StorageItem item;
+
+
         QDataStream stream(&serializedData, QIODevice::ReadOnly);
         stream >> data;
 
+        switch (data.itemType){
+        case DataType::qString:
+            {StringItem stringData;
+            QDataStream stringStream(&serializedData, QIODevice::ReadOnly);
+            stringStream >> stringData;
+            emit dataLoaded(key, &stringData);}
+            break;
+        case DataType::doubleValue:
+            break;
+        case DataType::qStringVector:
+            break;
+
+        }
+
+
         //StorageItem *item = qobject_cast<StorageItem *>(valueObject);
         qDebug()<< "loadFromDatabase result: "<<&data;
-        //qDebug()<< "loadFromDatabase result: "<<&item;
         emit dataLoaded(key, &data);
         //emit dataLoaded(key, item);
     }

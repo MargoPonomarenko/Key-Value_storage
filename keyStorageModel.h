@@ -12,7 +12,7 @@ struct StorageItem:QObject{
 public:
     DataType itemType;
     QDate created;
-    StorageItem();
+    StorageItem(){};
     StorageItem(DataType type, QDate date){
         itemType = type;
         created = date;
@@ -28,7 +28,6 @@ public:
         }
         return *this;
     }
-
     friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item) {
             stream << item.itemType << item.created;
             return stream;
@@ -37,14 +36,23 @@ public:
             stream >> item.itemType >> item.created;
             return stream;
      }
+
 };
 
 struct StringItem: public StorageItem{
     QString data;
+    StringItem(){};
     StringItem(DataType type, QDate date, QString data):StorageItem(type, date){
         this->data = data;
     }
-    StringItem();
+    friend QDataStream& operator<<(QDataStream& stream, const StringItem& item) {
+            stream << item.itemType << item.data;
+            return stream;
+    }
+    friend QDataStream& operator>>(QDataStream& stream, StringItem& item) {
+            stream >> item.itemType >> item.data;
+            return stream;
+     }
 };
 
 struct DoubleItem: public StorageItem{
@@ -71,7 +79,6 @@ public:
     StorageItem *get(QString key);
     void patch(QString key, StorageItem *newValue);
     void remove(QString key);
-
 
 private:
     //set life time func
