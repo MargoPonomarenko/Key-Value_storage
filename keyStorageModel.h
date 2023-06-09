@@ -13,27 +13,27 @@ public:
     DataType itemType;
     QDate created;
     StorageItem(){};
-    StorageItem(DataType type, QDate date){
+    StorageItem(DataType type, QDate date) :QObject(nullptr){
         itemType = type;
         created = date;
     }
-    StorageItem(const StorageItem& item){
+    StorageItem(const StorageItem& item) :QObject(nullptr){
 
         itemType = item.itemType;
         created = item.created;
     }
-    StorageItem& operator=(const StorageItem& item) {
+    StorageItem& operator=(const StorageItem& item){
         if (this != &item) {
             itemType = item.itemType;
             created = item.created;
         }
         return *this;
     }
-    friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item) {
+    friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item){
             stream << item.itemType << item.created;
             return stream;
     }
-    friend QDataStream& operator>>(QDataStream& stream, StorageItem& item) {
+    friend QDataStream& operator>>(QDataStream& stream, StorageItem& item){
             stream >> item.itemType >> item.created;
             return stream;
      }

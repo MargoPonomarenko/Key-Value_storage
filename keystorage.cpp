@@ -123,7 +123,7 @@ void KeyStorage::remove(QString key)
 
 void KeyStorage::onDataLoaded(QString key, StorageItem *value)
 {
-    qDebug()<<"onDataLoaded func"<<value;
+    qDebug()<<"onDataLoaded func"<<value<<" by key: "<<key;
 
     switch(value->itemType)
     {
