@@ -17,4 +17,4 @@ else:unix: LIBS += -L/home/runner/work/Key-Value_storage/Key-Value_storage/KeySt
 
 INCLUDEPATH += "../"
 
-DEPENDPATH += $$PWD/ release
+DEPENDPATH += $$PWD/../
