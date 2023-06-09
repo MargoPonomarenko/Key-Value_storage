@@ -1,5 +1,5 @@
 #include <QtTest>
-#include <keystorage.h>
+#include "../keystorage.h"
 
 class KeyValueStorageTest : public QObject
 {
