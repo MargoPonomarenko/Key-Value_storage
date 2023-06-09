@@ -23,7 +23,6 @@ jobs:
     
     - name: Build project
       run: |
-        cd ..
         ls
         qmake -config release Key-Value_Storage.pro
         make
