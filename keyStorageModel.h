@@ -3,10 +3,8 @@
 #include <QMap>
 #include <QDate>
 #include <QObject>
-
-enum class DataType{
-    qString, doubleValue, qStringVector
-};
+#include <QDataStream>
+#include "dataType.h"
 
 struct StorageItem:public QObject{
     Q_OBJECT

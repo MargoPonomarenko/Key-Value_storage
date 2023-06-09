@@ -1,6 +1,5 @@
 QT -= gui
 QT += sql
-QT += testlib
 QT += core
 
 TEMPLATE = lib
@@ -14,12 +13,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    dataType.cpp \
     keyStorageModel.cpp \
     keystorage.cpp \
     sqlitebackupservice.cpp
 
 HEADERS += \
     KeyValueStorage_global.h \
+    dataType.h \
     keyStorageModel.h \
     keystorage.h \
     sqlitebackupservice.h
