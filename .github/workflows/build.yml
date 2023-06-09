@@ -18,12 +18,9 @@ jobs:
 
     - name: Install Qt dependencies
       run: sudo apt-get update && sudo apt-get install -y qt5-qmake qtbase5-dev qtdeclarative5-dev
-
-    - name: Configure project
-      run: qmake -r
-
+      
     - name: Build project
-      run: qmake Key-Value_Storage.pro
+      run: qmake -r Key-Value_Storage.pro
 
     - name: Run tests
       run: ctest --output-on-failure
