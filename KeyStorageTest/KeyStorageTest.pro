@@ -13,8 +13,8 @@ SOURCES += tst_keyvaluestoragetest.cpp
 
 #else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build-Key-Value_Storage-Desktop_Qt_6_3_1_MinGW_64_bit-Debug/debug/ -lKey-Value_storage
 
-unix: LIBS += -L$$PWD/../ -lKey-Value_Storage
+unix: LIBS += -L$$PWD/../../ -lKey-Value_Storage
 
-INCLUDEPATH += $$PWD/..
+INCLUDEPATH += $$PWD/../../
 
-DEPENDPATH += $$PWD/..
+DEPENDPATH += $$PWD/../../
