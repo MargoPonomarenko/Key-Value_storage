@@ -15,6 +15,6 @@ SOURCES += tst_keyvaluestoragetest.cpp
 
 unix: LIBS += -L$$PWD/../ -lKey-Value_Storage
 
-INCLUDEPATH += $$PWD/../
+INCLUDEPATH += $$OUT_PWD/..
 
-DEPENDPATH += $$PWD/../
+DEPENDPATH += $$OUT_PWD/..
