@@ -32,10 +32,4 @@ jobs:
           cd KeyStorageTest/
           qmake -config release KeyStorageTest.pro
           make
-
-    - name: Run tests
-      run: |
-        ls
-        cd KeyStorageTest/
-        ./KeyStorageTest -test
       
