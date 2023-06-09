@@ -23,9 +23,9 @@ jobs:
     
     - name: Build project
       run: |
-        ls
         qmake -config release Key-Value_Storage.pro
         make 
+        ls
         
     - name: Build Test project
       run: |
