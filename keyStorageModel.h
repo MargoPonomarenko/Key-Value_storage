@@ -2,6 +2,7 @@
 #define KEYSTORAGEMODEL_H
 #include <QMap>
 #include <QDate>
+#include <QObject>
 
 enum class DataType{
     qString, doubleValue, qStringVector
