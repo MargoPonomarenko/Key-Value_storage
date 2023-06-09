@@ -20,8 +20,6 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install -y build-essential qt6-default qtbase6-dev qtdeclarative6-dev
-      with:
-          version: '6.2.3'
     
     - name: Build project
       run: |
