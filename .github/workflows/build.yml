@@ -24,13 +24,13 @@ jobs:
     - name: Build project
       run: |
         cd ../
-        qmake -config release
+        qmake -config release Key-Value_Storage.pro
         make
         
     - name: Build Test project
       run: |
           cd ../KeyStorageTest/
-          qmake -config release
+          qmake -config release KeyStorageTest.pro
           make
 
     - name: Run tests
