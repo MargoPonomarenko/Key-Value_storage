@@ -23,7 +23,7 @@ jobs:
       run: qmake -r
 
     - name: Build project
-      run: make
+      run: qmake Key-Value_Storage.pro
 
     - name: Run tests
       run: ctest --output-on-failure
