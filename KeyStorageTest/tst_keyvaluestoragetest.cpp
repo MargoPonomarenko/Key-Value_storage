@@ -1,11 +1,5 @@
 #include <QtTest>
 #include <keystorage.h>
-//#include <../../Key-Value_storage/keystorage.h>
-//#include <../../Key-Value_storage/keyStorageModel.h>
-//#include <../../Key-Value_storage/sqlitebackupservice.h>
-
-
-// add necessary includes here
 
 class KeyValueStorageTest : public QObject
 {

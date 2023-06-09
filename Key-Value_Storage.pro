@@ -1,6 +1,7 @@
 QT -= gui
 QT += sql
 QT += testlib
+QT += core
 
 TEMPLATE = lib
 #TEMPLATE = subdirs
