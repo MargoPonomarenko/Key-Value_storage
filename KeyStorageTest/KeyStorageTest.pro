@@ -13,8 +13,8 @@ win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build-Key-Value_Stor
 
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build-Key-Value_Storage-Desktop_Qt_6_3_1_MinGW_64_bit-Debug/debug/ -lKey-Value_storage
 
-else:unix: LIBS += -L$$PWD/ -lKey-Value_storage
+else:unix: LIBS += -L$$PWD/ ../ -lKey-Value_storage
 
-INCLUDEPATH += "Key-Value_storage"
+INCLUDEPATH += "../"
 
 DEPENDPATH += $$PWD/ release
