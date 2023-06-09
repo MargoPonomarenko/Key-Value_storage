@@ -31,11 +31,13 @@ public:
         return *this;
     }
     friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item){
-            stream << item.itemType << item.created;
+            stream << item.itemType;
+            stream<< item.created;
             return stream;
     }
     friend QDataStream& operator>>(QDataStream& stream, StorageItem& item){
-            stream >> item.itemType >> item.created;
+            stream >> item.itemType;
+            stream >> item.created;
             return stream;
      }
 
