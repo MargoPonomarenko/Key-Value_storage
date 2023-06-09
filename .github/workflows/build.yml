@@ -19,22 +19,22 @@ jobs:
     - name: Install Qt dependencies
       run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential qt5-qmake qtbase5-dev qtdeclarative5-dev
+          sudo apt-get install -y build-essential qtbase5-dev-tools libqt5svg5-dev libqt5webenginewidgets5 libqt5webchannel5-dev qtwebengine5-dev qt5-qmake qtbase5-dev qtdeclarative5-dev
     
     - name: Build project
       run: |
         ls
         qmake -config release Key-Value_Storage.pro
-        make
+        make 
         
     - name: Build Test project
       run: |
-          cd ../KeyStorageTest/
+          cd KeyStorageTest/
           qmake -config release KeyStorageTest.pro
           make
 
     - name: Run tests
       run: |
-        cd ../KeyStorageTest/
+        cd KeyStorageTest/
         ./KeyStorageTest -test
       
