@@ -2,49 +2,59 @@
 #define KEYSTORAGEMODEL_H
 #include <QMap>
 #include <QDate>
+#include <QObject>
+#include <QDataStream>
+#include "dataType.h"
 
-enum class DataType{
-    qString, doubleValue, qStringVector
-};
-
-struct StorageItem:QObject{
+struct StorageItem:public QObject{
     Q_OBJECT
 public:
     DataType itemType;
     QDate created;
-    StorageItem();
-    StorageItem(DataType type, QDate date){
+    StorageItem(){};
+    StorageItem(DataType type, QDate date) :QObject(nullptr){
         itemType = type;
         created = date;
     }
-    StorageItem(const StorageItem& item) {
+    StorageItem(const StorageItem& item) :QObject(nullptr){
+
         itemType = item.itemType;
         created = item.created;
     }
-    StorageItem& operator=(const StorageItem& item) {
+    StorageItem& operator=(const StorageItem& item){
         if (this != &item) {
             itemType = item.itemType;
             created = item.created;
         }
         return *this;
     }
-
-    friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item) {
-            stream << item.itemType << item.created;
+    friend QDataStream& operator<<(QDataStream& stream, const StorageItem& item){
+            stream << item.itemType;
+            stream<< item.created;
             return stream;
     }
-    friend QDataStream& operator>>(QDataStream& stream, StorageItem& item) {
-            stream >> item.itemType >> item.created;
+    friend QDataStream& operator>>(QDataStream& stream, StorageItem& item){
+            stream >> item.itemType;
+            stream >> item.created;
             return stream;
      }
+
 };
 
 struct StringItem: public StorageItem{
     QString data;
+    StringItem(){};
     StringItem(DataType type, QDate date, QString data):StorageItem(type, date){
         this->data = data;
     }
-    StringItem();
+    friend QDataStream& operator<<(QDataStream& stream, const StringItem& item) {
+            stream << item.itemType << item.data;
+            return stream;
+    }
+    friend QDataStream& operator>>(QDataStream& stream, StringItem& item) {
+            stream >> item.itemType >> item.data;
+            return stream;
+     }
 };
 
 struct DoubleItem: public StorageItem{
@@ -71,7 +81,6 @@ public:
     StorageItem *get(QString key);
     void patch(QString key, StorageItem *newValue);
     void remove(QString key);
-
 
 private:
     //set life time func

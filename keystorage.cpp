@@ -1,18 +1,31 @@
 #include "keystorage.h"
 #include <QDebug>
 
+
 KeyStorage::KeyStorage()
 {
     storageModel = new KeyStorageModel;
     backupService = new SQLiteBackupService;
+    timer = new QTimer;
     backupService->setStorage(this);
     backupService->initSlotConnection();
     connect(backupService, &SQLiteBackupService::dataLoaded, this, &KeyStorage::onDataLoaded);
+    connect(timer, &QTimer::timeout, this, &KeyStorage::clearStorage);
+    timer->moveToThread(&timerThread);
+    connect(&timerThread, &QThread::finished, timer, &QObject::deleteLater);
+    timerThread.start();
+    timer->start(1000);
+
+}
+
+KeyStorage::~KeyStorage()
+{
+    timerThread.quit();
+    timerThread.wait();
 }
 
 void KeyStorage::put(QString key, QString value)
 {
-    qDebug()<<"In put method";
     StringItem *item = new StringItem {DataType::qString, QDate::currentDate(), value};
     put(key, item);
     qDebug()<<"Emit signal saveToDatabase";
@@ -110,21 +123,29 @@ void KeyStorage::remove(QString key)
 
 void KeyStorage::onDataLoaded(QString key, StorageItem *value)
 {
-    qDebug()<<"onDataLoaded func"<<(int)(value->itemType);
+    qDebug()<<"onDataLoaded func"<<value<<" by key: "<<key;
 
     switch(value->itemType)
     {
     case DataType::qString:
-
-        emit gettedString("test line");
-        //emit gettedString(((StringItem *)value)->data);
+        qDebug()<<"Catch in QSting "<<((StringItem *)value)->data;
+        emit gettedString(((StringItem *)value)->data);
         break;
     case DataType::doubleValue:
+        qDebug()<<"Catch in double";
         emit gettedDouble(((DoubleItem *)value)->data);
         break;
     case DataType::qStringVector:
+        qDebug()<<"Catch in vector";
         emit gettedVectorString(((VectorStringItem *)value)->data);
         break;
-
+    default:
+        qDebug()<<"Catch in default";
+        break;
     }
+}
+
+void KeyStorage::clearStorage()
+{
+    qDebug()<<"Clear Storage";
 }
