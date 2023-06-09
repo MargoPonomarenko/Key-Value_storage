@@ -25,4 +25,4 @@ jobs:
 
     - name: Run tests
       run: |
-        ./KeyStorageTest/tst_keyvaluestoragetest.cpp
+        ./KeyStorageTest/KeyStorageTest.pro
