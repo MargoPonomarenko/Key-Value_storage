@@ -16,10 +16,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up Qt Creator
-      uses: jurplel/install-qt-action@v2
-      with:
-        version: 'latest'
+    - name: Install Qt dependencies
+      run: sudo apt-get update && sudo apt-get install -y qt5-default
 
     - name: Configure project
       run: qmake -r
