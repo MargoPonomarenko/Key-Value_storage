@@ -7,7 +7,7 @@ enum class DataType{
     qString, doubleValue, qStringVector
 };
 
-struct StorageItem:QObject{
+struct StorageItem:public QObject{
     Q_OBJECT
 public:
     DataType itemType;
@@ -17,7 +17,8 @@ public:
         itemType = type;
         created = date;
     }
-    StorageItem(const StorageItem& item) {
+    StorageItem(const StorageItem& item){
+
         itemType = item.itemType;
         created = item.created;
     }

@@ -1,9 +1,12 @@
 QT -= gui
 QT += sql
+QT += testlib
 
 TEMPLATE = lib
+#TEMPLATE = subdirs
 DEFINES += KEYVALUESTORAGE_LIBRARY
 CONFIG += c++17
+#SUBDIRS = KeyStorageTest/
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
